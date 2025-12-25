@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蓝色远方 - The Blue Distant Place</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&family=ZCOOL+KuaiLe&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 保留原有的所有CSS样式，这里只添加新的样式 */
+        
+        /* 新添加：图片容器样式 */
+        .custom-image {
+            width: 100%;
+            max-width: 400px;
+            height: 250px;
+            border-radius: 12px;
+            margin: 20px auto;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            position: relative;
+            border: 2px solid var(--border-color);
+        }
+        
+        .custom-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-placeholder {
+            color: var(--text-secondary);
+            font-style: italic;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        /* 相册图片样式 */
+        .album-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .album-img:hover {
+            transform: scale(1.05);
+        }
+        
+        /* 修复开始按钮点击区域 */
+        .start-btn {
+            margin-top: 25px;
+            padding: 15px 50px;
+            background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-family: 'ZCOOL KuaiLe', cursive;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(74, 144, 217, 0.4);
+            z-index: 10;
+            position: relative;
+        }
+        
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(74, 144, 217, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <!-- Edit Mode Toggle -->
+    <button class="edit-mode-toggle" onclick="toggleEditMode()" title="切换编辑模式">
+        <i class="fas fa-edit"></i> 编辑模式
+    </button>
+
+    <!-- Intro Page -->
+    <div class="intro-page" id="introPage">
+        <div class="classroom-scene">
+            <div class="rain-overlay"></div>
+            <div class="clock"></div>
+            <div class="blackboard">
+                <span class="blackboard-text">高三五班 加油！</span>
+            </div>
+            <div class="desk">
+                <div class="desk-items">
+                    <div class="paper"></div>
+                    <div class="paper"></div>
+                </div>
+            </div>
+            <div class="cat-on-desk">🐱</div>
+        </div>
+        <div class="story-text editable-content" data-key="introStory">
+            <p>2024年8月22日下午5:30，高三五班的教室里只剩下烨子一个人正在写数学试卷。窗外下着细雨，落到树叶上发出清脆的响声。烨子已经为了眼前的解析几何花费了两页草稿纸。"喵"，一声猫叫突然打断了她的思绪。</p>
+            <p>"教室里怎么有猫？"烨子疑惑地抬起头，看见一只狸花猫端端正正地坐在讲台上。见烨子注意到了它，狸花猫舔了舔自己的白手套，大步流星地走到烨子脚边，轻盈地跳到她腿上。</p>
+            <p>"呀小猫！你怎么爬到三楼来了？"正当烨子以为自己终于夺回自己的地盘的时候，小猫突然转身，叼起桌边上被折成A5大小的卷子往教室外跑。</p>
+            <p>烨子见状只好追出去。当她冲出教室，发现猫正停在不远处，就像故意等着一样。不知不觉来到了一个空教室里，一台电脑在桌上发出幽幽白光。电脑上开着一个陌生网页，但是登陆的账号却写着她熟悉的昵称——Sorrra。</p>
+        </div>
+        <button class="start-btn" onclick="startGame()">开始探索</button>
+    </div>
+
+    <!-- 以下是原有的HTML结构，保持不变 -->
+    <!-- Main Container -->
+    <div class="main-container" id="mainContainer">
+        <!-- ... 原有的HTML代码保持不变 ... -->
+    </div>
+
+    <script>
+        // ==================== 图片配置 ====================
+        // 在这里配置你自己的图片路径
+        const imageConfig = {
+            // 日志图片
+            diary1: {
+                url: 'images/mcdonalds.jpg', // 替换为你的麦当劳图片路径
+                alt: '麦当劳美食',
+                desc: '和ysy一起吃的麦当劳'
+            },
+            diary2: {
+                url: 'images/coconut_water.jpg', // 替换为你的小卖部图片
+                alt: '椰子水',
+                desc: '学校小卖部的椰子水'
+            },
+            diary3: {
+                url: 'images/locker.jpg', // 替换为储物柜图片
+                alt: '储物柜',
+                desc: '高三的储物柜'
+            },
+            childrenPark: {
+                url: 'images/children_park.jpg', // 儿童公园图片
+                alt: '儿童公园',
+                desc: '记忆中的儿童公园'
+            },
+            peoplePark: {
+                url: 'images/people_park.jpg', // 人民公园图片
+                alt: '人民公园',
+                desc: '秋游的人民公园'
+            },
+            ocPhoto: {
+                url: 'images/oc_photo.jpg', // OC照片
+                alt: 'OC摄影',
+                desc: '为OC拍的照片'
+            },
+            basketball: {
+                url: 'images/basketball.jpg', // 篮球赛照片
+                alt: '篮球赛',
+                desc: '学校篮球赛'
+            },
+            poemActivity: {
+                url: 'images/poem_activity.jpg', // 以诗换诗活动
+                alt: '诗歌活动',
+                desc: '以诗换诗活动照片'
+            },
+            uniSky: {
+                url: 'images/uni_sky.jpg', // 大学天空
+                alt: '大学天空',
+                desc: '大学宿舍窗外的蓝天'
+            },
+            // 默认占位图片（如果某张图片没有，会显示这个）
+            placeholder: {
+                url: '',
+                alt: '图片加载中',
+                desc: '点击编辑模式可以修改图片链接'
+            }
+        };
+
+        // ==================== 修改的日记内容 ====================
+        // 用自定义图片替换原来的纯色背景
+        editableContent.diary1Content = `<p><strong>2024.8.23:</strong></p>
+            <p>今天和ysy去吃了麦当劳，薯条我会追随你一辈子，麦门！</p>
+            <div class="custom-image" id="mcdonaldsImage">
+                <div class="image-placeholder">🍟 麦当劳美食照片</div>
+            </div>
+            <p><strong>2024.10.31:</strong></p>
+            <p>本来打算不吃晚饭了，但是ysy说万圣节出了新的麦旋风，那当然是要尝一下了。我问ysy吃完就回学校吗，她说不想回，其实我也不想回。"那要不我们去<span class="clickable-text" onclick="showHint('儿童公园')">儿童公园</span>吧，走路很快就能到。"她提议道。</p>
+            <p>儿童公园很多项目都停止运营了，只剩下旋转木马、碰碰车几个经典项目供小孩子娱乐。公园算不上太大，但是我们也只是堪堪逛完。作为高三生的我们没有太多时间出去玩，但能够偶尔找到这种地方放松一下，也是很不错了。</p>`;
+
+        editableContent.page6Content = `<p><strong>2024.11.15 23:17 公开</strong></p>
+            <p>原来儿童公园要闭门改造了啊，难怪很多设施都用不了了。好可惜，又少了一个可以去放松的地方。偶然去一次没想到隔天它就要关门了，也算是一种缘分了。</p>
+            <div class="custom-image" id="childrenParkImage">
+                <div class="image-placeholder">🎠 儿童公园照片</div>
+            </div>
+            <p>一周前班主任就说计划今天去人民公园秋游的，没想到今天下雨了。虽然到最后都还下着一点点雨，但是班主任还是放我们去了。</p>
+            <p>今天中午跟styq吃饭的时候她说秋游这个建议还是她们班主任最先提出来的，谁是人民的好老师我一看便知，感谢jwy！</p>`;
+
+        // ==================== 新增函数：加载图片 ====================
+        function loadImage(elementId, imageKey) {
+            const imgConfig = imageConfig[imageKey] || imageConfig.placeholder;
+            const element = document.getElementById(elementId);
+            
+            if (element && imgConfig.url) {
+                element.innerHTML = `<img src="${imgConfig.url}" alt="${imgConfig.alt}" title="${imgConfig.desc}">`;
+            }
+        }
+
+        // ==================== 修改的openDiary函数 ====================
+        function openDiary(diaryId) {
+            const diaryContent = {
+                diary1: { 
+                    title: "麦当劳", 
+                    content: editableContent.diary1Content,
+                    imageKey: "diary1"
+                },
+                diary2: { 
+                    title: "小卖部", 
+                    content: editableContent.diary2Content 
+                },
+                diary3: { 
+                    title: "储物柜", 
+                    content: editableContent.diary3Content 
+                }
+            };
+
+            const diary = diaryContent[diaryId];
+            if (diary) {
+                document.getElementById('modalTitle').textContent = diary.title;
+                document.getElementById('modalBody').innerHTML = `<div class="diary-full-content editable-content" data-key="${diaryId}Content">${diary.content}</div>`;
+                openModal('modalOverlay');
+
+                // 加载图片（如果有）
+                if (diary.imageKey) {
+                    // 等待模态框渲染完成
+                    setTimeout(() => {
+                        loadImage(diary.imageKey + 'Image', diary.imageKey);
+                    }, 100);
+                }
+
+                // Hide unread dot
+                const dotNum = diaryId.replace('diary', '');
+                const dot = document.getElementById('dot' + dotNum);
+                if (dot) dot.style.display = 'none';
+
+                // Update progress
+                if (!gameState.unlockedPages.includes(parseInt(dotNum) + 1)) {
+                    gameState.unlockedPages.push(parseInt(dotNum) + 1);
+                    gameState.progress = Math.max(gameState.progress, parseInt(dotNum) + 1);
+                    updateProgress();
+                }
+
+                // Add photo to album
+                addPhotoToAlbum(diaryId);
+            }
+        }
+
+        // ==================== 修改的addPhotoToAlbum函数 ====================
+        function addPhotoToAlbum(photoId) {
+            if (!gameState.albumPhotos.includes(photoId)) {
+                gameState.albumPhotos.push(photoId);
+                updateAlbum();
+            }
+        }
+
+        function updateAlbum() {
+            const albumGrid = document.getElementById('albumGrid');
+            if (!albumGrid) return;
+
+            // 清空相册（除了占位符）
+            const emptyAlbum = document.getElementById('albumEmpty');
+            if (emptyAlbum) emptyAlbum.remove();
+
+            // 添加所有解锁的照片
+            albumGrid.innerHTML = '';
+            
+            gameState.albumPhotos.forEach(photoId => {
+                const imgConfig = imageConfig[photoId] || imageConfig.placeholder;
+                const albumItem = document.createElement('div');
+                albumItem.className = 'album-item';
+                albumItem.onclick = () => viewPhoto(photoId);
+                
+                if (imgConfig.url) {
+                    albumItem.innerHTML = `<img src="${imgConfig.url}" alt="${imgConfig.alt}" class="album-img">`;
+                } else {
+                    albumItem.innerHTML = `<div class="album-placeholder">${imgConfig.alt || photoId}</div>`;
+                }
+                
+                albumGrid.appendChild(albumItem);
+            });
+
+            // 如果相册为空，显示提示
+            if (gameState.albumPhotos.length === 0) {
+                const emptyItem = document.createElement('div');
+                emptyItem.className = 'album-item';
+                emptyItem.id = 'albumEmpty';
+                emptyItem.innerHTML = '<div class="album-placeholder">暂无照片<br>探索日志解锁更多</div>';
+                albumGrid.appendChild(emptyItem);
+            }
+        }
+
+        function viewPhoto(photoId) {
+            const imgConfig = imageConfig[photoId] || imageConfig.placeholder;
+            const content = `
+                <div style="text-align: center; padding: 20px;">
+                    <h3>${imgConfig.desc || photoId}</h3>
+                    ${imgConfig.url ? 
+                        `<img src="${imgConfig.url}" alt="${imgConfig.alt}" style="max-width: 100%; max-height: 60vh; border-radius: 12px; margin: 20px 0;">` :
+                        `<div class="image-placeholder" style="height: 300px; display: flex; align-items: center; justify-content: center;">${imgConfig.alt}</div>`
+                    }
+                    <p style="color: var(--text-secondary); margin-top: 20px;">${imgConfig.desc || ''}</p>
+                </div>
+            `;
+            
+            showCustomModal(content, [{ text: '关闭', action: closeCustomModal }]);
+        }
+
+        // ==================== 修复startGame函数 ====================
+        function startGame() {
+            const introPage = document.getElementById('introPage');
+            const mainContainer = document.getElementById('mainContainer');
+            
+            if (introPage && mainContainer) {
+                introPage.style.display = 'none';
+                mainContainer.classList.add('active');
+                gameState.progress = 1;
+                updateProgress();
+                showPopup("应广大用户要求，'搜索'功能现已上线！您可使用右上角的搜索框检索未显示的内容。");
+                
+                // 初始化相册
+                updateAlbum();
+            } else {
+                console.error('页面元素未找到');
+                alert('页面加载出错，请刷新页面重试');
+            }
+        }
+
+        // ==================== 修改的init函数 ====================
+        function init() {
+            // Dark mode detection
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+                if (event.matches) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            });
+
+            // Enter key for search
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+
+            // 测试：如果按钮点击有问题，也添加键盘支持
+            const startBtn = document.querySelector('.start-btn');
+            if (startBtn) {
+                startBtn.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        startGame();
+                    }
+                });
+            }
+
+            updateProgress();
+            
+            // 初始化时加载一些默认图片
+            setTimeout(() => {
+                loadImage('mcdonaldsImage', 'diary1');
+                loadImage('childrenParkImage', 'childrenPark');
+            }, 500);
+        }
+
+        // ==================== 原有的其他函数保持不变 ====================
+        // ... 保持原有的其他函数不变 ...
+
+        // ==================== 初始化 ====================
+        // 确保DOM加载完成后再执行初始化
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
