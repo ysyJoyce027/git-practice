@@ -3,164 +3,855 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>蓝色远方 - The Blue Distant Place</title>
-    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&family=ZCOOL+KuaiLe&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <title>蓝色远方 - 烨子的时光胶囊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 保留原有的所有CSS样式，这里只添加新的样式 */
-        
-        /* 新添加：图片容器样式 */
-        .custom-image {
+        :root {
+            --bg-primary: #e9f2f9;
+            --bg-secondary: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --accent: #4c9ce6;
+            --accent-light: #7ab3e8;
+            --highlight: #ff6b6b;
+            --card-shadow: 0 2px 10px rgba(76, 156, 230, 0.15);
+            --border-color: #d9e7f5;
+            --space-blue: #e1ecf7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', 'Microsoft YaHei', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            background-image: linear-gradient(to bottom, #f0f8ff, #e9f2f9);
+        }
+
+        /* 开始页面 */
+        .intro-page {
             width: 100%;
-            max-width: 400px;
-            height: 250px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6a8cb3 0%, #4c9ce6 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .intro-container {
+            background: white;
             border-radius: 12px;
-            margin: 20px auto;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+        }
+
+        .story-text {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: justify;
+            color: #333;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .story-text::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .story-text::-webkit-scrollbar-thumb {
+            background: #4c9ce6;
+            border-radius: 3px;
+        }
+
+        .story-text p {
+            margin-bottom: 15px;
+            text-indent: 2em;
+        }
+
+        .start-btn {
+            display: block;
+            margin: 20px auto 0;
+            padding: 12px 40px;
+            background: linear-gradient(to right, #4c9ce6, #3a87d4);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 156, 230, 0.3);
+        }
+
+        .start-btn:hover {
+            background: linear-gradient(to right, #3a87d4, #2a6bb9);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 156, 230, 0.4);
+        }
+
+        /* 主界面 */
+        .main-container {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--space-blue);
+        }
+
+        .main-container.active {
+            display: block;
+        }
+
+        /* 空间头部 */
+        .qzone-header {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border: 1px solid #dce6f2;
+            position: relative;
+        }
+
+        .qzone-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4c9ce6, #3a87d4);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid #4c9ce6;
             overflow: hidden;
+            background: linear-gradient(135deg, #4c9ce6 0%, #3a87d4 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f5f5f5;
-            position: relative;
-            border: 2px solid var(--border-color);
         }
-        
+
+        .avatar-placeholder {
+            color: white;
+            font-size: 28px;
+        }
+
+        .profile-info h1 {
+            font-size: 22px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .signature {
+            color: #666;
+            font-size: 13px;
+            font-style: italic;
+            max-width: 200px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 8px 16px;
+            background: linear-gradient(to bottom, #f7f9fc, #e9f0f7);
+            color: #333;
+            border: 1px solid #c5d9e8;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(to bottom, #e9f0f7, #d9e7f5);
+            border-color: #4c9ce6;
+            color: #4c9ce6;
+        }
+
+        .nav-btn.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .lock-icon {
+            font-size: 11px;
+            color: #999;
+        }
+
+        /* 搜索和天气 */
+        .search-weather {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .search-input {
+            padding: 8px 15px;
+            border: 1px solid #c5d9e8;
+            border-radius: 20px;
+            font-size: 13px;
+            width: 200px;
+            background: white;
+            color: #333;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4c9ce6;
+            box-shadow: 0 0 0 2px rgba(76, 156, 230, 0.2);
+        }
+
+        .search-btn {
+            padding: 8px 16px;
+            background: #4c9ce6;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .search-btn:hover {
+            background: #3a87d4;
+        }
+
+        .weather-widget {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 11px;
+            color: #666;
+            background: white;
+            padding: 8px 10px;
+            border-radius: 6px;
+            line-height: 1.4;
+            border: 1px solid #dce6f2;
+        }
+
+        /* 日志卡片 */
+        .diary-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .diary-card {
+            background: white;
+            border-radius: 8px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #dce6f2;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diary-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-color: #4c9ce6;
+        }
+
+        .diary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4c9ce6, #3a87d4);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .diary-card:hover::before {
+            opacity: 1;
+        }
+
+        .diary-card h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .diary-meta {
+            font-size: 11px;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #e8f0f8;
+        }
+
+        .diary-preview {
+            color: #555;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .unread-dot {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 8px;
+            height: 8px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* 进度指示器 */
+        .progress-indicator {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background: white;
+            color: #4c9ce6;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            border: 1px solid #dce6f2;
+        }
+
+        /* 弹窗通知 */
+        .popup-notification {
+            position: fixed;
+            bottom: 60px;
+            right: 15px;
+            background: white;
+            border-left: 4px solid #4c9ce6;
+            border-radius: 6px;
+            padding: 12px 16px;
+            max-width: 280px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            z-index: 200;
+            animation: slideIn 0.3s ease;
+            display: none;
+            border: 1px solid #dce6f2;
+        }
+
+        .popup-notification.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+        }
+
+        .popup-close:hover {
+            color: #ff6b6b;
+        }
+
+        /* 模态框 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid #dce6f2;
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            background: linear-gradient(to right, #4c9ce6, #3a87d4);
+            color: white;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .modal-header h2 {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        /* 图片样式 */
+        .custom-image {
+            width: 100%;
+            max-width: 400px;
+            height: 200px;
+            border-radius: 6px;
+            margin: 15px auto;
+            overflow: hidden;
+            border: 1px solid #dce6f2;
+            background: #f8fafc;
+            position: relative;
+        }
+
         .custom-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
+
         .image-placeholder {
-            color: var(--text-secondary);
-            font-style: italic;
-            padding: 20px;
-            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e9f2f9 100%);
         }
-        
-        /* 相册图片样式 */
+
+        /* 可点击文字 */
+        .clickable-text {
+            color: #4c9ce6;
+            text-decoration: none;
+            cursor: pointer;
+            border-bottom: 1px dashed #4c9ce6;
+            padding: 0 2px;
+            transition: all 0.2s;
+        }
+
+        .clickable-text:hover {
+            color: #ff6b6b;
+            border-bottom-color: #ff6b6b;
+        }
+
+        /* 相册 */
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .album-item {
+            aspect-ratio: 1;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid #dce6f2;
+            background: #f8fafc;
+            transition: all 0.3s;
+        }
+
+        .album-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: #4c9ce6;
+        }
+
         .album-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s;
         }
-        
-        .album-img:hover {
-            transform: scale(1.05);
+
+        .album-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 12px;
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e9f2f9 100%);
         }
-        
-        /* 修复开始按钮点击区域 */
-        .start-btn {
-            margin-top: 25px;
-            padding: 15px 50px;
-            background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 18px;
-            font-family: 'ZCOOL KuaiLe', cursive;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(74, 144, 217, 0.4);
-            z-index: 10;
-            position: relative;
-        }
-        
-        .start-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(74, 144, 217, 0.6);
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .qzone-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-weather {
+                align-items: stretch;
+            }
+            
+            .weather-widget {
+                writing-mode: horizontal-tb;
+                text-align: center;
+                padding: 8px;
+            }
+            
+            .search-box {
+                justify-content: center;
+            }
+            
+            .search-input {
+                width: 100%;
+            }
+            
+            .diary-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .intro-container {
+                padding: 20px;
+            }
+
+            /* 全屏模态框样式 */
+            .modal-overlay.fullscreen .modal-content {
+                max-width: 100%;
+                max-height: 100vh;
+                border-radius: 0;
+                margin: 0;
+            }
+
+            .modal-overlay.fullscreen {
+                padding: 0;
+            }
+
+            .modal-overlay.fullscreen .modal-header {
+                border-radius: 0;
+                padding: 15px 30px;
+            }
+
+            .modal-overlay.fullscreen .modal-body {
+                max-height: calc(100vh - 70px);
+                overflow-y: auto;
+                padding: 30px;
+            }
+
+            /* 全屏下的日记内容 */
+            .modal-overlay.fullscreen .diary-full-content {
+                font-size: 16px;
+                line-height: 1.8;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+
+            .modal-overlay.fullscreen .custom-image {
+                max-width: 600px;
+                height: 300px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Edit Mode Toggle -->
-    <button class="edit-mode-toggle" onclick="toggleEditMode()" title="切换编辑模式">
-        <i class="fas fa-edit"></i> 编辑模式
-    </button>
-
-    <!-- Intro Page -->
+    <!-- 开始页面 -->
     <div class="intro-page" id="introPage">
-        <div class="classroom-scene">
-            <div class="rain-overlay"></div>
-            <div class="clock"></div>
-            <div class="blackboard">
-                <span class="blackboard-text">高三五班 加油！</span>
+        <div class="intro-container">
+            <div class="story-text">
+                <p>2024年8月22日下午5:30，高三五班的教室里只剩下烨子一个人正在写数学试卷。窗外下着细雨，落到树叶上发出清脆的响声。烨子已经为了眼前的解析几何花费了两页草稿纸。"喵"，一声猫叫突然打断了她的思绪。</p>
+                <p>"教室里怎么有猫？"烨子疑惑地抬起头，看见一只狸花猫端端正正地坐在讲台上。见烨子注意到了它，狸花猫舔了舔自己的白手套，大步流星地走到烨子脚边，轻盈地跳到她腿上。</p>
+                <p>"呀小猫！你怎么爬到三楼来了？"烨子挠了挠小猫的脑袋。对方在她腿上逡巡了两圈，没找到舒服的位置，于是又跳到了课桌上。</p>
+                <p>正当烨子以为自己终于夺回自己的地盘的时候，小猫突然转身，叼起桌边上被折成A5大小的卷子往教室外跑。</p>
+                <p>烨子见状只好追出去："坏猫！啥意思呀？我卷子写一半你给我叼走了？"当她冲出教室，发现猫正停在不远处，就像故意等着一样。见她看见了自己，狸花有条不紊地跑了起来，烨子追在它身后，不知不觉来到了一个空教室里。</p>
+                <p>教室中间摆着一套桌椅，一台电脑在桌上发出幽幽白光。猫跳到电脑边，把卷子压在身下，叫了一声示意烨子过来。烨子凑过来，看见电脑上开着一个陌生网页，但是登陆的账号却写着她熟悉的昵称——Sorrra。</p>
+                <p>那是她自己起的。</p>
+                <p>烨子有点好奇，网页右下角适时弹出来一个弹窗："搜索"功能现已上线，您可使用右上角的搜索框检索未显示的内容。</p>
+                <p>小猫已经趴在卷子上睡得昏天黑地了。烨子看了看表，想着离晚自习还有一段时间，便决定探索一下这个奇怪的账号。</p>
             </div>
-            <div class="desk">
-                <div class="desk-items">
-                    <div class="paper"></div>
-                    <div class="paper"></div>
-                </div>
-            </div>
-            <div class="cat-on-desk">🐱</div>
+            <button class="start-btn" onclick="startGame()">开始探索</button>
         </div>
-        <div class="story-text editable-content" data-key="introStory">
-            <p>2024年8月22日下午5:30，高三五班的教室里只剩下烨子一个人正在写数学试卷。窗外下着细雨，落到树叶上发出清脆的响声。烨子已经为了眼前的解析几何花费了两页草稿纸。"喵"，一声猫叫突然打断了她的思绪。</p>
-            <p>"教室里怎么有猫？"烨子疑惑地抬起头，看见一只狸花猫端端正正地坐在讲台上。见烨子注意到了它，狸花猫舔了舔自己的白手套，大步流星地走到烨子脚边，轻盈地跳到她腿上。</p>
-            <p>"呀小猫！你怎么爬到三楼来了？"正当烨子以为自己终于夺回自己的地盘的时候，小猫突然转身，叼起桌边上被折成A5大小的卷子往教室外跑。</p>
-            <p>烨子见状只好追出去。当她冲出教室，发现猫正停在不远处，就像故意等着一样。不知不觉来到了一个空教室里，一台电脑在桌上发出幽幽白光。电脑上开着一个陌生网页，但是登陆的账号却写着她熟悉的昵称——Sorrra。</p>
-        </div>
-        <button class="start-btn" onclick="startGame()">开始探索</button>
     </div>
 
-    <!-- 以下是原有的HTML结构，保持不变 -->
-    <!-- Main Container -->
+    <!-- 主界面 -->
     <div class="main-container" id="mainContainer">
-        <!-- ... 原有的HTML代码保持不变 ... -->
+        <div class="qzone-header">
+            <div class="profile-section">
+                <div class="avatar">
+                    <div class="avatar-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h1>Sorrra</h1>
+                    <p class="signature">探索未知的边界</p>
+                    <div class="nav-buttons">
+                        <button class="nav-btn" onclick="openAlbum()">
+                            <i class="fas fa-images"></i> 相册
+                        </button>
+                        <button class="nav-btn" onclick="openMusic()">
+                            <i class="fas fa-music"></i> 音乐
+                        </button>
+                        <button class="nav-btn locked" id="messageBoardBtn" onclick="tryOpenMessageBoard()">
+                            <i class="fas fa-comments"></i> 留言板
+                            <i class="fas fa-lock lock-icon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="search-weather">
+                <div class="search-box">
+                    <input type="text" class="search-input" id="searchInput" placeholder="搜索内容..." onkeypress="handleSearchKeyPress(event)">
+                    <button class="search-btn" onclick="performSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="weather-widget">
+                    <div>2024年8月22日</div>
+                    <div>深圳 · 小雨</div>
+                    <div>26°C</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 日志卡片 -->
+        <div class="diary-section">
+            <div class="diary-card" onclick="openDiary('diary1')">
+                <div class="unread-dot" id="dot1"></div>
+                <div class="diary-meta">
+                    <span>2024.12.28 20:33</span>
+                    <span>🌐 公开</span>
+                </div>
+                <h3>麦当劳</h3>
+                <p class="diary-preview">今天和ysy去吃了麦当劳，薯条我会追随你一辈子，麦门！</p>
+            </div>
+            <div class="diary-card" onclick="openDiary('diary2')">
+                <div class="unread-dot" id="dot2"></div>
+                <div class="diary-meta">
+                    <span>2024.9.12 23:05</span>
+                    <span>🔒 部分可见</span>
+                </div>
+                <h3>小卖部</h3>
+                <p class="diary-preview">学校小卖部的椰子水好难抢。每次补货都刚好有人上体育课...</p>
+            </div>
+            <div class="diary-card" onclick="openDiary('diary3')">
+                <div class="unread-dot" id="dot3"></div>
+                <div class="diary-meta">
+                    <span>2025.5.30 19:46</span>
+                    <span>🌐 公开</span>
+                </div>
+                <h3>储物柜</h3>
+                <p class="diary-preview">真不敢相信马上就要高考了……时间过得真快。今天开始清理柜子里...</p>
+            </div>
+        </div>
+
+        <!-- 进度指示器 -->
+        <div class="progress-indicator" id="progressIndicator">1/18</div>
+
+        <!-- 弹窗通知 -->
+        <div class="popup-notification" id="popupNotification">
+            <button class="popup-close" onclick="closePopup()">×</button>
+            <p id="popupText"></p>
+        </div>
+    </div>
+
+    <!-- 日志模态框 -->
+    <div class="modal-overlay" id="diaryModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 id="diaryTitle">日志标题</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="diaryContent">
+                <!-- 动态加载内容 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 相册模态框 -->
+    <div class="modal-overlay" id="albumModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2><i class="fas fa-images"></i> 相册</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="album-grid" id="albumGrid">
+                    <div class="album-item" id="albumEmpty">
+                        <div class="album-placeholder">暂无照片<br>探索日志解锁更多</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 音乐模态框 -->
+    <div class="modal-overlay" id="musicModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2><i class="fas fa-music"></i> 音乐</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; padding: 30px;">
+                    <div style="font-size: 48px; margin-bottom: 20px;">🎵</div>
+                    <h3 style="color: #4c9ce6; margin-bottom: 15px;">反方向的钟</h3>
+                    <p style="color: #666; margin-bottom: 20px;">周杰伦 · 《范特西》</p>
+                    <button class="start-btn" style="padding: 10px 30px;" onclick="playMusic()">
+                        <i class="fas fa-play"></i> 播放
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // ==================== 图片配置 ====================
-        // 在这里配置你自己的图片路径
+        // 游戏状态
+        const gameState = {
+            currentPage: 1,           // 当前正在浏览的页面
+            maxPages: 18,            // 总页面数
+            visitedPages: new Set([1]), // 已访问过的页面（主界面是第1页）
+            unlockedDiaries: [],
+            messageBoardUnlocked: false,
+            albumPhotos: [],
+             // 页面映射：哪个页面是第几页
+            pageMapping: {
+                'main': 1,
+                'diary1': 2,
+                'diary2': 3,
+                'diary3': 4,
+                'search_儿童公园': 5,
+                'search_人民公园': 6,
+                'search_健康加油站': 7,
+                'search_奇妙的回忆': 8,
+                'search_高三百宝袋': 9,
+                'search_紧张的日子': 10,
+                'search_海子的诗': 11,
+                'search_死前幻想': 12,
+                'search_the blue distant place': 13,
+                'search_夏夜晚风': 14,
+                'search_最后一张底片': 15,
+                'ending': 16
+            }
+        };
+
+        // 图片配置 - 在这里修改你的图片路径
         const imageConfig = {
-            // 日志图片
             diary1: {
-                url: 'images/mcdonalds.jpg', // 替换为你的麦当劳图片路径
+                url: 'images/mcd240823.jpg',
                 alt: '麦当劳美食',
                 desc: '和ysy一起吃的麦当劳'
             },
             diary2: {
-                url: 'images/coconut_water.jpg', // 替换为你的小卖部图片
+                url: 'images/coconut_water.jpg',
                 alt: '椰子水',
                 desc: '学校小卖部的椰子水'
             },
             diary3: {
-                url: 'images/locker.jpg', // 替换为储物柜图片
+                url: 'images/locker.jpg',
                 alt: '储物柜',
                 desc: '高三的储物柜'
             },
             childrenPark: {
-                url: 'images/children_park.jpg', // 儿童公园图片
+                url: 'images/children_park.jpg',
                 alt: '儿童公园',
                 desc: '记忆中的儿童公园'
             },
-            peoplePark: {
-                url: 'images/people_park.jpg', // 人民公园图片
-                alt: '人民公园',
-                desc: '秋游的人民公园'
-            },
-            ocPhoto: {
-                url: 'images/oc_photo.jpg', // OC照片
-                alt: 'OC摄影',
-                desc: '为OC拍的照片'
-            },
-            basketball: {
-                url: 'images/basketball.jpg', // 篮球赛照片
-                alt: '篮球赛',
-                desc: '学校篮球赛'
-            },
-            poemActivity: {
-                url: 'images/poem_activity.jpg', // 以诗换诗活动
-                alt: '诗歌活动',
-                desc: '以诗换诗活动照片'
-            },
-            uniSky: {
-                url: 'images/uni_sky.jpg', // 大学天空
-                alt: '大学天空',
-                desc: '大学宿舍窗外的蓝天'
-            },
-            // 默认占位图片（如果某张图片没有，会显示这个）
             placeholder: {
                 url: '',
                 alt: '图片加载中',
@@ -168,217 +859,366 @@
             }
         };
 
-        // ==================== 修改的日记内容 ====================
-        // 用自定义图片替换原来的纯色背景
-        editableContent.diary1Content = `<p><strong>2024.8.23:</strong></p>
-            <p>今天和ysy去吃了麦当劳，薯条我会追随你一辈子，麦门！</p>
-            <div class="custom-image" id="mcdonaldsImage">
-                <div class="image-placeholder">🍟 麦当劳美食照片</div>
-            </div>
-            <p><strong>2024.10.31:</strong></p>
-            <p>本来打算不吃晚饭了，但是ysy说万圣节出了新的麦旋风，那当然是要尝一下了。我问ysy吃完就回学校吗，她说不想回，其实我也不想回。"那要不我们去<span class="clickable-text" onclick="showHint('儿童公园')">儿童公园</span>吧，走路很快就能到。"她提议道。</p>
-            <p>儿童公园很多项目都停止运营了，只剩下旋转木马、碰碰车几个经典项目供小孩子娱乐。公园算不上太大，但是我们也只是堪堪逛完。作为高三生的我们没有太多时间出去玩，但能够偶尔找到这种地方放松一下，也是很不错了。</p>`;
+        // 日志内容
+        const diaryContents = {
+            diary1: {
+                title: "麦当劳",
+                content: `
+                    <p><strong>2024.8.23:</strong></p>
+                    <p>今天和ysy去吃了麦当劳，薯条我会追随你一辈子，麦门！</p>
+                    <div class="custom-image" id="diary1Image">
+                        <div class="image-placeholder">🍟 麦当劳美食照片</div>
+                    </div>
+                    <p><strong>2024.10.31:</strong></p>
+                    <p>本来打算不吃晚饭了，但是ysy说万圣节出了新的麦旋风，那当然是要尝一下了。我问ysy吃完就回学校吗，她说不想回，其实我也不想回。"那要不我们去<span class="clickable-text" onclick="showHint('儿童公园')">儿童公园</span>吧，走路很快就能到。"她提议道。</p>
+                    <p>儿童公园很多项目都停止运营了，只剩下旋转木马、碰碰车几个经典项目供小孩子娱乐。公园算不上太大，但是我们也只是堪堪逛完。作为高三生的我们没有太多时间出去玩，但能够偶尔找到这种地方放松一下，也是很不错了。</p>
+                `
+            },
+            diary2: {
+                title: "小卖部",
+                content: `
+                    <p><strong>2024.9.12 23:05 部分可见</strong></p>
+                    <p>学校小卖部的椰子水好难抢。每次补货都刚好有人上体育课，根本抢不过他们。今天买东西听见刘阿姨和李阿姨刚好在聊这事。</p>
+                    <p>刘："这椰子水这么畅销啊，老师学生都抢着买，每次上架都一下清空了。"</p>
+                    <p>李："可不嘛。诶对了，最近学校是不是上了个什么测试平台，叫什么……<span class="clickable-text" onclick="showHint('健康加油站')">健康加油站</span>？说是可以用工号在线上购买，还可以预购隔天会上新的商品。"</p>
+                    <p>刘："你说不会有人偷拿别人的东西吧？"</p>
+                    <p>李："这放心好了，拿商品也得刷条码的，要是被门口检测仪查出来偷拿可是要被取消线上购买资格的，得不偿失嘞。"</p>
+                `
+            },
+            diary3: {
+                title: "储物柜",
+                content: `
+                    <p><strong>2025.5.30 19:46 公开</strong></p>
+                    <p>真不敢相信马上就要高考了……时间过得真快。</p>
+                    <p>今天开始清理柜子里，东西好多啊，我还列了个清单来看自己都放了些啥。</p>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 20px 0;">
+                        <div style="background: #f8fafc; padding: 15px; border-radius: 6px; text-align: center; cursor: pointer; border: 1px solid #dce6f2;" onclick="showItemDetail('教科书')">
+                            <div style="font-size: 24px; margin-bottom: 8px;">📚</div>
+                            <div style="font-size: 13px;">教科书</div>
+                        </div>
+                        <div style="background: #f8fafc; padding: 15px; border-radius: 6px; text-align: center; cursor: pointer; border: 1px solid #dce6f2;" onclick="showItemDetail('零食')">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🍬</div>
+                            <div style="font-size: 13px;">零食</div>
+                        </div>
+                        <div style="background: #f8fafc; padding: 15px; border-radius: 6px; text-align: center; cursor: pointer; border: 1px solid #dce6f2;" onclick="showItemDetail('照片')">
+                            <div style="font-size: 24px; margin-bottom: 8px;">📷</div>
+                            <div style="font-size: 13px;">照片</div>
+                        </div>
+                        <div style="background: #f8fafc; padding: 15px; border-radius: 6px; text-align: center; cursor: pointer; border: 1px solid #dce6f2;" onclick="showItemDetail('回忆')">
+                            <div style="font-size: 24px; margin-bottom: 8px;">💭</div>
+                            <div style="font-size: 13px;">回忆</div>
+                        </div>
+                    </div>
+                `
+            }
+        };
 
-        editableContent.page6Content = `<p><strong>2024.11.15 23:17 公开</strong></p>
-            <p>原来儿童公园要闭门改造了啊，难怪很多设施都用不了了。好可惜，又少了一个可以去放松的地方。偶然去一次没想到隔天它就要关门了，也算是一种缘分了。</p>
-            <div class="custom-image" id="childrenParkImage">
-                <div class="image-placeholder">🎠 儿童公园照片</div>
-            </div>
-            <p>一周前班主任就说计划今天去人民公园秋游的，没想到今天下雨了。虽然到最后都还下着一点点雨，但是班主任还是放我们去了。</p>
-            <p>今天中午跟styq吃饭的时候她说秋游这个建议还是她们班主任最先提出来的，谁是人民的好老师我一看便知，感谢jwy！</p>`;
+        // 搜索关键词对应的页面
+        const searchPages = {
+            '儿童公园': {
+                title: '城市新闻',
+                content: `
+                    <div style="background: white; border-radius: 6px; padding: 20px; border: 1px solid #dce6f2;">
+                        <h3 style="color: #4c9ce6; margin-bottom: 15px;">城市焕新颜：中心儿童公园将于2024年11月启动全面改造</h3>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">本市讯：为进一步提升城市公共空间品质，满足市民日益增长的休闲娱乐需求，市园林与绿化管理局今日正式宣布，位于城市核心区的标志性场所——中心儿童公园，将于2024年11月1日起实施为期一年的全面封闭改造升级工程。</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">中心儿童公园始建于1987年，近四十年来一直是本市家庭周末休闲的首选之地。园内那座标志性的大象滑梯和斑驳的秋千架，留存了无数市民的童年剪影。</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">针对市民关心的公园封闭期间的休闲需求，建议市民可以前往位于人民北路3071号的<span class="clickable-text" onclick="showHint('人民公园')">人民公园</span>进行休闲娱乐活动。</p>
+                    </div>
+                `,
+                progress: 5
+            },
+            '人民公园': {
+                title: '日志 - 人民公园',
+                content: `
+                    <p><strong>2024.11.15 23:17 公开</strong></p>
+                    <p>原来儿童公园要闭门改造了啊，难怪很多设施都用不了了。好可惜，又少了一个可以去放松的地方。偶然去一次没想到隔天它就要关门了，也算是一种缘分了。</p>
+                    <div class="custom-image" id="parkImage">
+                        <div class="image-placeholder">🎠 儿童公园照片</div>
+                    </div>
+                    <p>一周前班主任就说计划今天去人民公园秋游的，没想到今天下雨了。虽然到最后都还下着一点点雨，但是班主任还是放我们去了。</p>
+                    <p>今天中午跟styq吃饭的时候她说秋游这个建议还是她们班主任最先提出来的，谁是人民的好老师我一看便知，感谢jwy！</p>
+                `,
+                progress: 6
+            },
+            '健康加油站': {
+                title: '健康加油站',
+                content: `
+                    <div style="text-align: center;">
+                        <div style="background: linear-gradient(to right, #4c9ce6, #3a87d4); color: white; padding: 20px; border-radius: 6px 6px 0 0; margin-bottom: 20px;">
+                            <h3>🏥 健康加油站</h3>
+                            <p>在线购买，便捷取货</p>
+                        </div>
+                        <p style="color: #666; margin-bottom: 30px;">功能开发中... 可以搜索<span class="clickable-text" onclick="showHint('奇妙的回忆')">"奇妙的回忆"</span>继续探索</p>
+                    </div>
+                `,
+                progress: 7
+            },
+            '奇妙的回忆': {
+                title: '日志 - 奇妙的回忆',
+                content: `
+                    <p><strong>2025.1.20 23:40 公开</strong></p>
+                    <p>高三还能有体育课也是很难得了。自由时间来之不易，既然如此，那就没有不翘课的理由。</p>
+                    <p>小卖部和体育场在同一条路上，大大方便了上体育课的人去买东西。巧克力棒和健达奇趣蛋这种甜食总是很容易售空。棉花糖好吃，但是都是大盒大盒售卖，买的人也就少了。</p>
+                    <p>生日的时候ysy送了我一盒烤棉花糖，一直都没找到机会把它消化掉，正巧今天体育课想起来了。煤块在锡纸上滋滋作响，棉花糖被烤出了焦黄的皮，热热的，咬下去的口感很神奇。</p>
+                    <p>高中生的乐趣可能就是很简单，吃到烤棉花糖，排名有显著进展，要是能够一次性买到小卖部四种炙手可热的商品，那可是能够吹好一阵了。点击查看<span class="clickable-text" onclick="showHint('高三百宝袋')">高三百宝袋</span>！</p>
+                `,
+                progress: 8
+            }
+        };
 
-        // ==================== 新增函数：加载图片 ====================
+        // 初始化
+        function init() {
+            updateProgress();
+        }
+
+        // 开始游戏
+        function startGame() {
+            document.getElementById('introPage').style.display = 'none';
+            document.getElementById('mainContainer').classList.add('active');
+            setCurrentPage('main');
+            showPopup('应广大用户要求，"搜索"功能现已上线！您可使用右上角的搜索框检索未显示的内容。');
+        }
+
+        // 更新进度
+        function updateProgress() {
+            document.getElementById('progressIndicator').textContent = `${gameState.currentPage}/${gameState.maxPages}`;
+        }
+
+        function setCurrentPage(pageId) {
+            // 根据页面ID设置当前页数
+            const pageNum = gameState.pageMapping[pageId] || gameState.currentPage;
+            gameState.currentPage = pageNum;
+            gameState.visitedPages.add(pageNum);
+            updateProgress();
+        }
+
+        // 显示弹窗
+        function showPopup(text) {
+            const popup = document.getElementById('popupNotification');
+            document.getElementById('popupText').textContent = text;
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 4000);
+        }
+
+        function closePopup() {
+            document.getElementById('popupNotification').classList.remove('show');
+        }
+
+        // 打开日志
+        function openDiary(diaryId) {
+            const diary = diaryContents[diaryId];
+            if (!diary) return;
+
+            // 更新页面进度（日记对应第2、3、4页）
+            setCurrentPage(diaryId);  // diary1 -> 第2页，diary2 -> 第3页，diary3 -> 第4页
+    
+            // 隐藏红点（只第一次）
+            if (!gameState.unlockedDiaries.includes(diaryId)) {
+                gameState.unlockedDiaries.push(diaryId);
+                const dot = document.getElementById('dot' + diaryId.replace('diary', ''));
+                if (dot) dot.style.display = 'none';
+            }
+
+            // 设置模态框为全屏样式
+            document.getElementById('diaryModal').classList.add('fullscreen');
+            document.getElementById('diaryTitle').textContent = diary.title;
+            document.getElementById('diaryContent').innerHTML = diary.content;
+    
+            // 加载图片
+            setTimeout(() => {
+                loadImage(diaryId + 'Image', diaryId);
+            }, 100);
+
+            // 添加到相册
+            addToAlbum(diaryId);
+
+            // 打开模态框
+            openModal('diaryModal');
+        }
+
+        // 加载图片
         function loadImage(elementId, imageKey) {
             const imgConfig = imageConfig[imageKey] || imageConfig.placeholder;
             const element = document.getElementById(elementId);
             
-            if (element && imgConfig.url) {
+            if (element && imgConfig.url && imgConfig.url.trim() !== '') {
                 element.innerHTML = `<img src="${imgConfig.url}" alt="${imgConfig.alt}" title="${imgConfig.desc}">`;
             }
         }
 
-        // ==================== 修改的openDiary函数 ====================
-        function openDiary(diaryId) {
-            const diaryContent = {
-                diary1: { 
-                    title: "麦当劳", 
-                    content: editableContent.diary1Content,
-                    imageKey: "diary1"
-                },
-                diary2: { 
-                    title: "小卖部", 
-                    content: editableContent.diary2Content 
-                },
-                diary3: { 
-                    title: "储物柜", 
-                    content: editableContent.diary3Content 
-                }
+        // 显示物品详情
+        function showItemDetail(item) {
+            const details = {
+                '教科书': '📚 厚厚的教科书，承载了无数个日夜的努力和汗水。',
+                '零食': '🍬 藏在柜子角落的零食，是课间的小确幸。',
+                '照片': '📷 和朋友们的合照，每一张都是珍贵的回忆。',
+                '回忆': '💭 这些东西承载的不只是物品，更是一段青春。'
             };
+            showPopup(details[item] || '未知物品');
+        }
 
-            const diary = diaryContent[diaryId];
-            if (diary) {
-                document.getElementById('modalTitle').textContent = diary.title;
-                document.getElementById('modalBody').innerHTML = `<div class="diary-full-content editable-content" data-key="${diaryId}Content">${diary.content}</div>`;
-                openModal('modalOverlay');
+        // 显示提示
+        function showHint(keyword) {
+            showPopup(`提示：尝试搜索"${keyword}"`);
+        }
 
-                // 加载图片（如果有）
-                if (diary.imageKey) {
-                    // 等待模态框渲染完成
-                    setTimeout(() => {
-                        loadImage(diary.imageKey + 'Image', diary.imageKey);
-                    }, 100);
+        // 处理搜索
+        function performSearch() {
+            const input = document.getElementById('searchInput');
+            const query = input.value.trim().toLowerCase();
+            input.value = '';
+
+            if (!query) {
+                showPopup('请输入搜索关键词');
+                return;
+            }
+
+            // 检查是否匹配关键词
+            for (const [key, page] of Object.entries(searchPages)) {
+                if (query === key.toLowerCase()) {
+                    // 更新进度
+                    if (page.progress && !gameState.unlockedDiaries.includes('search_' + page.progress)) {
+                        gameState.unlockedDiaries.push('search_' + page.progress);
+                        gameState.progress = Math.max(gameState.progress, page.progress);
+                        updateProgress();
+                    }
+
+                    // 显示页面
+                    document.getElementById('diaryTitle').textContent = page.title;
+                    document.getElementById('diaryContent').innerHTML = page.content;
+                    
+                    // 加载图片
+                    if (key === '人民公园') {
+                        setTimeout(() => {
+                            loadImage('parkImage', 'childrenPark');
+                        }, 100);
+                    }
+                    
+                    openModal('diaryModal');
+                    return;
                 }
+            }
 
-                // Hide unread dot
-                const dotNum = diaryId.replace('diary', '');
-                const dot = document.getElementById('dot' + dotNum);
-                if (dot) dot.style.display = 'none';
+            // 没有匹配
+            showPopup('未找到相关内容，请尝试其他关键词');
+        }
 
-                // Update progress
-                if (!gameState.unlockedPages.includes(parseInt(dotNum) + 1)) {
-                    gameState.unlockedPages.push(parseInt(dotNum) + 1);
-                    gameState.progress = Math.max(gameState.progress, parseInt(dotNum) + 1);
-                    updateProgress();
-                }
-
-                // Add photo to album
-                addPhotoToAlbum(diaryId);
+        // 处理回车搜索
+        function handleSearchKeyPress(event) {
+            if (event.key === 'Enter') {
+                performSearch();
             }
         }
 
-        // ==================== 修改的addPhotoToAlbum函数 ====================
-        function addPhotoToAlbum(photoId) {
-            if (!gameState.albumPhotos.includes(photoId)) {
-                gameState.albumPhotos.push(photoId);
-                updateAlbum();
-            }
+        // 打开相册
+        function openAlbum() {
+            updateAlbum();
+            openModal('albumModal');
         }
 
+        // 更新相册
         function updateAlbum() {
             const albumGrid = document.getElementById('albumGrid');
-            if (!albumGrid) return;
-
-            // 清空相册（除了占位符）
-            const emptyAlbum = document.getElementById('albumEmpty');
-            if (emptyAlbum) emptyAlbum.remove();
-
-            // 添加所有解锁的照片
             albumGrid.innerHTML = '';
-            
+
+            if (gameState.albumPhotos.length === 0) {
+                albumGrid.innerHTML = `
+                    <div class="album-item" id="albumEmpty">
+                        <div class="album-placeholder">暂无照片<br>探索日志解锁更多</div>
+                    </div>
+                `;
+                return;
+            }
+
             gameState.albumPhotos.forEach(photoId => {
                 const imgConfig = imageConfig[photoId] || imageConfig.placeholder;
                 const albumItem = document.createElement('div');
                 albumItem.className = 'album-item';
                 albumItem.onclick = () => viewPhoto(photoId);
                 
-                if (imgConfig.url) {
+                if (imgConfig.url && imgConfig.url.trim() !== '') {
                     albumItem.innerHTML = `<img src="${imgConfig.url}" alt="${imgConfig.alt}" class="album-img">`;
                 } else {
-                    albumItem.innerHTML = `<div class="album-placeholder">${imgConfig.alt || photoId}</div>`;
+                    albumItem.innerHTML = `<div class="album-placeholder">${imgConfig.alt}</div>`;
                 }
                 
                 albumGrid.appendChild(albumItem);
             });
+        }
 
-            // 如果相册为空，显示提示
-            if (gameState.albumPhotos.length === 0) {
-                const emptyItem = document.createElement('div');
-                emptyItem.className = 'album-item';
-                emptyItem.id = 'albumEmpty';
-                emptyItem.innerHTML = '<div class="album-placeholder">暂无照片<br>探索日志解锁更多</div>';
-                albumGrid.appendChild(emptyItem);
+        // 添加到相册
+        function addToAlbum(photoId) {
+            if (!gameState.albumPhotos.includes(photoId)) {
+                gameState.albumPhotos.push(photoId);
             }
         }
 
+        // 查看照片
         function viewPhoto(photoId) {
             const imgConfig = imageConfig[photoId] || imageConfig.placeholder;
-            const content = `
-                <div style="text-align: center; padding: 20px;">
-                    <h3>${imgConfig.desc || photoId}</h3>
-                    ${imgConfig.url ? 
-                        `<img src="${imgConfig.url}" alt="${imgConfig.alt}" style="max-width: 100%; max-height: 60vh; border-radius: 12px; margin: 20px 0;">` :
-                        `<div class="image-placeholder" style="height: 300px; display: flex; align-items: center; justify-content: center;">${imgConfig.alt}</div>`
-                    }
-                    <p style="color: var(--text-secondary); margin-top: 20px;">${imgConfig.desc || ''}</p>
-                </div>
-            `;
+            document.getElementById('diaryTitle').textContent = imgConfig.alt;
+            let content = `<div style="text-align: center;">`;
             
-            showCustomModal(content, [{ text: '关闭', action: closeCustomModal }]);
-        }
-
-        // ==================== 修复startGame函数 ====================
-        function startGame() {
-            const introPage = document.getElementById('introPage');
-            const mainContainer = document.getElementById('mainContainer');
-            
-            if (introPage && mainContainer) {
-                introPage.style.display = 'none';
-                mainContainer.classList.add('active');
-                gameState.progress = 1;
-                updateProgress();
-                showPopup("应广大用户要求，'搜索'功能现已上线！您可使用右上角的搜索框检索未显示的内容。");
-                
-                // 初始化相册
-                updateAlbum();
+            if (imgConfig.url && imgConfig.url.trim() !== '') {
+                content += `<img src="${imgConfig.url}" alt="${imgConfig.alt}" style="max-width: 100%; max-height: 400px; border-radius: 8px; margin-bottom: 20px;">`;
             } else {
-                console.error('页面元素未找到');
-                alert('页面加载出错，请刷新页面重试');
+                content += `<div class="image-placeholder" style="height: 300px; margin-bottom: 20px;">${imgConfig.alt}</div>`;
             }
-        }
-
-        // ==================== 修改的init函数 ====================
-        function init() {
-            // Dark mode detection
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.documentElement.classList.add('dark');
-            }
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-                if (event.matches) {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
-            });
-
-            // Enter key for search
-            const searchInput = document.getElementById('searchInput');
-            if (searchInput) {
-                searchInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        performSearch();
-                    }
-                });
-            }
-
-            // 测试：如果按钮点击有问题，也添加键盘支持
-            const startBtn = document.querySelector('.start-btn');
-            if (startBtn) {
-                startBtn.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        startGame();
-                    }
-                });
-            }
-
-            updateProgress();
             
-            // 初始化时加载一些默认图片
-            setTimeout(() => {
-                loadImage('mcdonaldsImage', 'diary1');
-                loadImage('childrenParkImage', 'childrenPark');
-            }, 500);
+            content += `<p style="color: #666;">${imgConfig.desc}</p></div>`;
+            
+            document.getElementById('diaryContent').innerHTML = content;
+            openModal('diaryModal');
         }
 
-        // ==================== 原有的其他函数保持不变 ====================
-        // ... 保持原有的其他函数不变 ...
-
-        // ==================== 初始化 ====================
-        // 确保DOM加载完成后再执行初始化
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
+        // 打开音乐
+        function openMusic() {
+            openModal('musicModal');
         }
+
+        function playMusic() {
+            showPopup('音乐播放中... 歌曲：《反方向的钟》');
+        }
+
+        // 尝试打开留言板
+        function tryOpenMessageBoard() {
+            if (gameState.progress >= 13) {
+                gameState.messageBoardUnlocked = true;
+                document.getElementById('messageBoardBtn').classList.remove('locked');
+                showPopup('留言板已解锁！');
+                // 这里可以添加打开留言板的逻辑
+            } else {
+                showPopup('留言板尚未解锁，继续探索吧！');
+            }
+        }
+
+        // 打开模态框
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        // 关闭模态框
+        function closeModal(event) {
+            if (event && event.target.classList.contains('modal-overlay')) {
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.classList.remove('active');
+                    modal.classList.remove('fullscreen'); // 移除全屏样式
+                });
+                // 返回主界面时，设置当前页为第1页
+                setCurrentPage('main');
+            } else {
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.classList.remove('active');
+                    modal.classList.remove('fullscreen');
+                });
+                setCurrentPage('main');
+            }
+        }
+
+        // 初始化
+        window.onload = init;
     </script>
 </body>
 </html>
